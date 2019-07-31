@@ -6,6 +6,7 @@
 #include "package.h"
 
 #define MAX_INCOM_PACKAGE_SIZE 5
+#define DEBUG // temp, I have no idea how to pass it using arduino ide
 
 WiFiUDP Udp;
 
@@ -17,17 +18,18 @@ void setup ()
 {
     // TODO ASAP!!!!: REMOVE HARDCODED VALUES, NEED AN OPTION TO SEND CREDENTIALS
     int status = WL_IDLE_STATUS;
-    char ssid[] = "****";
-    char pass[] = "****";
+    char ssid[] = "mynet";
+    char pass[] = "hujzopa123";
     int keyIndex = 0; // for wep
     unsigned int local_port = 2390;
 
     Serial.begin (9600);
+#ifdef DEBUG
     while (!Serial)
     {
-        ; // wait for serial port to connect. Needed for native USB port only
+        ; // wait for serial port to connect
     }
-
+#endif
     // check for the presence of the shield:
     if (WiFi.status() == WL_NO_SHIELD)
     {
@@ -72,13 +74,13 @@ void loop ()
         int len = Udp.read (package_buffer, MAX_INCOM_PACKAGE_SIZE);
         if (len > 0)
         {
-            if (package_buffer[0] == 'b')
+            if (package_buffer[0] == START_STREAM)
             {
                 // start streaming
                 state = STREAMING;
                 Serial.println ("start streaming session");
             }
-            else if (package_buffer[0] == 's')
+            else if (package_buffer[0] == STOP_STREAM)
             {
                 // stop streaming
                 state = WAIT;
@@ -102,7 +104,6 @@ void loop ()
         Udp.endPacket ();
     }
 }
-
 
 void print_wifi_status()
 {
