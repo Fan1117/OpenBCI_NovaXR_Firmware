@@ -18,8 +18,8 @@ void setup ()
 {
     // TODO ASAP!!!!: REMOVE HARDCODED VALUES, NEED AN OPTION TO SEND CREDENTIALS
     int status = WL_IDLE_STATUS;
-    char ssid[] = "mynet";
-    char pass[] = "hujzopa123";
+    char ssid[] = "TP-Link_E3A6";
+    char pass[] = "34810798";
     int keyIndex = 0; // for wep
     unsigned int local_port = 2390;
 
