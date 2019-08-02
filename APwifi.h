@@ -35,7 +35,11 @@ void parse_html(char *line_buffer, char *ssid, char *pass) {
 }
 
 void AP_wifi_setup ()
-{
+{ 
+  char ssid[] = "";
+  char pass[] = "";
+  WiFiServer server(80);
+  int status = WL_IDLE_STATUS;
   Serial.begin(9600);
   while (!Serial) {
     ;

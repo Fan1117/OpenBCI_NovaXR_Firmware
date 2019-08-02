@@ -1,6 +1,9 @@
 #include <SPI.h>
 #include <WiFiNINA.h> // EXTERNAL DEPENDENCY NEED TO INSTALL FROM LIBRARY MANAGER
 #include <WiFiUdp.h>
+/////////////////////////////////
+#include "APwifi.h"
+////////////////////////////////
 
 #include "commands.h"
 #include "package.h"
@@ -17,37 +20,39 @@ int client_port = 0;
 void setup ()
 {
     // TODO ASAP!!!!: REMOVE HARDCODED VALUES, NEED AN OPTION TO SEND CREDENTIALS
-    int status = WL_IDLE_STATUS;
-    char ssid[] = "mynet";
-    char pass[] = "hujzopa123";
-    int keyIndex = 0; // for wep
+//    int status = WL_IDLE_STATUS;
+//    char ssid[] = "mynet";
+//    char pass[] = "hujzopa123";
+//    int keyIndex = 0; // for wep
     unsigned int local_port = 2390;
 
-    Serial.begin (9600);
-#ifdef DEBUG
-    while (!Serial)
-    {
-        ; // wait for serial port to connect
-    }
-#endif
-    // check for the presence of the shield:
-    if (WiFi.status() == WL_NO_SHIELD)
-    {
-        Serial.println("WiFi shield not present");
-        // don't continue:
-        while (true);
-    }
-  
-    while (status != WL_CONNECTED)
-    {
-        Serial.print ("Attempting to connect to SSID: ");
-        Serial.println (ssid);
-        // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-        status = WiFi.begin (ssid, pass);
-        // wait 10 seconds for connection:
-        delay (10000);
-    }
-    Serial.println("Connected to wifi");
+//    Serial.begin (9600);
+//#ifdef DEBUG
+//    while (!Serial)
+//    {
+//        ; // wait for serial port to connect
+//    }
+//#endif
+//    // check for the presence of the shield:
+//    if (WiFi.status() == WL_NO_SHIELD)
+//    {
+//        Serial.println("WiFi shield not present");
+//        // don't continue:
+//        while (true);
+//    }
+//  
+//    while (status != WL_CONNECTED)
+//    {
+//        Serial.print ("Attempting to connect to SSID: ");
+//        Serial.println (ssid);
+//        // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+//        status = WiFi.begin (ssid, pass);
+//        // wait 10 seconds for connection:
+//        delay (10000);
+//    }
+//    Serial.println("Connected to wifi");
+
+    AP_wifi_setup();
     print_wifi_status();
 
     Udp.begin(local_port);
