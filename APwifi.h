@@ -1,4 +1,4 @@
-void login_webpage(WiFiClient &client) {
+void fillForm(WiFiClient &client) {
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: text/html");
   client.println("<html><head></head><body>");
@@ -10,36 +10,56 @@ void login_webpage(WiFiClient &client) {
   client.print("</body></html>");
 }
 
-void parse_html(char *line_buffer, char *ssid, char *pass) {
-  if (strstr(line_buffer, "&") > 0) {
-    char* substring;
-    substring = strtok(line_buffer, "&= ");
+void parseHTML(char *linebuf, char *ssid, char *pass) {
+  if (strstr(linebuf, "&") > 0) {
+    char* p;
+    p = strtok(linebuf, "&= ");
     for (int counter = 0; counter < 5; counter++) {
       if (counter == 2) {
         if (strlen(ssid) == 0) {
-          strcpy(ssid, substring);
+          strcpy(ssid, p);
           Serial.print("ssid is ");
           Serial.println(ssid);
         }
       }
       if (counter == 4) {
         if (strlen(pass) == 0) {
-          strcpy(pass, substring);
+          strcpy(pass, p);
           Serial.print("pass is ");
           Serial.println(pass);
         }
       }
-      substring = strtok(NULL, "&= ");
+      p = strtok(NULL, "&= ");
+    }
+  }
+}
+void register_new_wifi () {
+
+  WiFiClient client = server.available();
+  if (client) {
+    while (client.connected()) {
+      if (client.available()) {
+
+        char c = client.read();
+        linebuf[charcount] = c;
+        if (charcount < sizeof(linebuf) - 1) charcount++;
+        if (c == '\n') {
+          parseHTML(linebuf, ssid, pass);
+          fillForm(client);
+          memset(linebuf, 0, sizeof(linebuf));
+          charcount = 0;
+          client.stop();
+        }
+      }
     }
   }
 }
 
+
 void AP_wifi_setup ()
-{ 
-  char ssid[] = "";
-  char pass[] = "";
-  WiFiServer server(80);
-  int status = WL_IDLE_STATUS;
+{
+  char AP_ssid[] = "";
+  char AP_pass[] = "";
   Serial.begin(9600);
   while (!Serial) {
     ;
@@ -54,8 +74,8 @@ void AP_wifi_setup ()
     Serial.println("Please upgrade the firmware");
   }
   Serial.print("Creating access point named: ");
-  Serial.println(ssid);
-  status = WiFi.beginAP(ssid, pass);
+  Serial.println(AP_ssid);
+  status = WiFi.beginAP(AP_ssid, AP_pass);
   if (status != WL_AP_LISTENING) {
     Serial.println("Creating access point failed");
     while (true);
@@ -63,3 +83,22 @@ void AP_wifi_setup ()
   delay(10000);
   server.begin();
 }
+
+void new_wifi_setup() {
+  if (WiFi.status() == WL_NO_SHIELD) {
+    Serial.println("WiFi shield not present");
+    // don't continue:
+    while (true);
+  }
+  // attempt to connect to WiFi network:
+  while ( status != WL_CONNECTED) {
+    Serial.print("Attempting to connect to SSID: ");
+    Serial.println(ssid);
+    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+    status = WiFi.begin(ssid, pass);
+    // wait 10 seconds for connection:
+    delay(100);
+  }
+  Serial.println("Connected to wifi");
+  // if you get a connection, report back via serial:
+  }
