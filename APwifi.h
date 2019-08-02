@@ -9,32 +9,26 @@ void fillForm(WiFiClient &client) {
   client.print("<input type=submit value=submit></form>");
   client.print("</body></html>");
 }
-
 void parseHTML(char *linebuf, char *ssid, char *pass) {
   if (strstr(linebuf, "&") > 0) {
     char* p;
     p = strtok(linebuf, "&= ");
     for (int counter = 0; counter < 5; counter++) {
-      if (counter == 2) {
-        if (strlen(ssid) == 0) {
-          strcpy(ssid, p);
-          Serial.print("ssid is ");
-          Serial.println(ssid);
-        }
+      if (counter == 2 && strlen(ssid) == 0) {
+        strcpy(ssid, p);
+        Serial.print("ssid is ");
+        Serial.println(ssid);
       }
-      if (counter == 4) {
-        if (strlen(pass) == 0) {
-          strcpy(pass, p);
-          Serial.print("pass is ");
-          Serial.println(pass);
-        }
+      if (counter == 4 && strlen(pass) == 0) {
+        strcpy(pass, p);
+        Serial.print("pass is ");
+        Serial.println(pass);
       }
       p = strtok(NULL, "&= ");
     }
   }
 }
 void register_new_wifi () {
-
   WiFiClient client = server.available();
   if (client) {
     while (client.connected()) {
@@ -45,6 +39,10 @@ void register_new_wifi () {
         if (charcount < sizeof(linebuf) - 1) charcount++;
         if (c == '\n') {
           parseHTML(linebuf, ssid, pass);
+          Serial.print("ssid is ");
+          Serial.println(ssid);
+          Serial.print("pass is ");
+          Serial.println(pass);
           fillForm(client);
           memset(linebuf, 0, sizeof(linebuf));
           charcount = 0;
@@ -54,8 +52,6 @@ void register_new_wifi () {
     }
   }
 }
-
-
 void AP_wifi_setup ()
 {
   char AP_ssid[] = "";
@@ -94,6 +90,8 @@ void new_wifi_setup() {
   while ( status != WL_CONNECTED) {
     Serial.print("Attempting to connect to SSID: ");
     Serial.println(ssid);
+    Serial.print("pass: ");
+    Serial.println(pass);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
@@ -101,4 +99,4 @@ void new_wifi_setup() {
   }
   Serial.println("Connected to wifi");
   // if you get a connection, report back via serial:
-  }
+}
