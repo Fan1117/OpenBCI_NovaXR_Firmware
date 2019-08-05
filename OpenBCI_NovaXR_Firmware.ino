@@ -1,6 +1,16 @@
 #include <SPI.h>
 #include <WiFiNINA.h> // EXTERNAL DEPENDENCY NEED TO INSTALL FROM LIBRARY MANAGER
 #include <WiFiUdp.h>
+/////////////////////////////////
+WiFiServer server(80);
+char ssid[20] = ""; // for new wifi setup
+char pass[20] = ""; // for new wifi setup
+char linebuf[80];   // for new wifi setup
+int charcount = 0;  // for new wifi setup
+bool new_wifi_isconnected = false; // indicate new wifi setup
+int status = WL_IDLE_STATUS;
+#include "APwifi.h"
+////////////////////////////////
 
 #include "commands.h"
 #include "package.h"
@@ -20,6 +30,9 @@ void setup ()
   unsigned int local_port = 2390;
   Serial.begin (9600);
 #ifdef DEBUG
+  AP_wifi_setup();
+  print_wifi_status();
+  Udp.begin(local_port);
 }
 
 void loop ()
