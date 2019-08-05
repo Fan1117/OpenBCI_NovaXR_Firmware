@@ -37,7 +37,6 @@ void setup ()
 
 void loop ()
 {
-  /////////////////////////////
   if (!new_wifi_isconnected) {
     register_new_wifi();
 
@@ -50,7 +49,6 @@ void loop ()
     }
   }
   else {
-  /////////////////////////////
     int package_size = Udp.parsePacket ();
     char package_buffer[MAX_INCOM_PACKAGE_SIZE];
     if (package_size) {
