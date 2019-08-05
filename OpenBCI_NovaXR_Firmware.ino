@@ -24,10 +24,8 @@ void setup ()
 
 void loop ()
 {   
-
   if (!new_wifi_isconnected) {
     register_new_wifi();
-
     if (strlen(ssid) > 0) {
       new_wifi_setup();
       print_wifi_status();
