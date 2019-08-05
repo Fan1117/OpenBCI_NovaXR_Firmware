@@ -29,7 +29,7 @@ void setup ()
   int status = WL_IDLE_STATUS;
   unsigned int local_port = 2390;
   Serial.begin (9600);
-  #ifdef DEBUG
+#ifdef DEBUG
   AP_wifi_setup();
   print_wifi_status();
   Udp.begin(local_port);
