@@ -16,7 +16,10 @@ int client_port = 0;
 
 void setup ()
 {
-  
+  int status = WL_IDLE_STATUS;
+  unsigned int local_port = 2390;
+  Serial.begin (9600);
+  #ifdef DEBUG
 }
 
 void loop ()
