@@ -11,7 +11,7 @@ bool new_wifi_isconnected = false; // indicate new wifi setup
 int status = WL_IDLE_STATUS;
 #include "APwifi.h"
 ////////////////////////////////
-
+float timestamp;
 #include "commands.h"
 #include "package.h"
 
@@ -29,7 +29,6 @@ void setup ()
   int status = WL_IDLE_STATUS;
   unsigned int local_port = 2390;
   Serial.begin (9600);
-#ifdef DEBUG
   AP_wifi_setup();
   print_wifi_status();
   Udp.begin(local_port);
@@ -92,9 +91,11 @@ void loop ()
       // TODO: ADD DYNAMIC DELAY TO FREEZE SAMPLING RATE?
       unsigned char package[PACKAGE_LENGTH_BYTES];
       Package::get_package (package);
+      timestamp = millis();
       Udp.beginPacket (client_ip, client_port);
       Udp.write (package, PACKAGE_LENGTH_BYTES);
       Udp.endPacket ();
+      Serial.println(millis()-timestamp);
     }
   }
 }
