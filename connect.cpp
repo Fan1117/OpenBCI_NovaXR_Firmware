@@ -5,6 +5,7 @@
 #include <WiFiUdp.h>
 
 #include "connect.h"
+#include "ArduinoUniqueID.h"
 
 #define AP_SSID "OpenBCI_NOVAXR"
 
@@ -125,14 +126,16 @@ bool register_new_wifi (char *ssid, char *pass)
 
 void ap_wifi_setup ()
 {
-    // TODO SET SSID LIKE OpenBCINovaXR-id
-    char ap_ssid[] = "temp";
-    Serial.begin (9600);
-#ifdef DEBUG
-    while (!Serial) {
-        ;
+    String ap_ssid = "OpenBCINovaXR-";
+    UniqueIDdump (Serial);
+    // first 8 should be enough I suppose. if not we can ise bit ops to create shorter id
+    for (size_t i = 0; i < 8; i++)
+    {
+        String hex = String (UniqueID[i], HEX);
+        ap_ssid += hex;
     }
-#endif
+    Serial.print ("Created AP net named:");
+    Serial.println (ap_ssid);
 
     if (WiFi.status () == WL_NO_MODULE)
     {
@@ -144,7 +147,7 @@ void ap_wifi_setup ()
     {
         Serial.println ("Please upgrade the firmware");
     }
-    int status = WiFi.beginAP (ap_ssid);
+    int status = WiFi.beginAP (ap_ssid.c_str ());
     if (status != WL_AP_LISTENING)
     {
         Serial.println ("Creating access point failed");
@@ -159,7 +162,7 @@ void new_wifi_setup (char *ssid, char *pass)
 {
     if (WiFi.status () == WL_NO_SHIELD)
     {
-        Serial.println("WiFi shield not present");
+        Serial.println ("WiFi shield not present");
         // don't continue:
         while (true);
     }

@@ -7,7 +7,7 @@
 #include "connect.h"
 
 #define MAX_INCOM_PACKAGE_SIZE 5
-#define DEBUG // temp, I have no idea how to pass it using arduino ide
+#define DEBUG // TODO remove, I have no idea how to pass it using arduino ide
 
 WiFiUDP Udp;
 
@@ -20,6 +20,11 @@ void setup ()
 {
     unsigned int local_port = 2390;
     Serial.begin (9600);
+#ifdef DEBUG
+    while (!Serial) {
+        ;
+    }
+#endif    
     ap_wifi_setup ();
     print_wifi_status ();
     Udp.begin (local_port);
