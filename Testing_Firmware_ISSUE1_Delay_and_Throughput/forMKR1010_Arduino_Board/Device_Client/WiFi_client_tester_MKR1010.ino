@@ -61,8 +61,8 @@ void loop()
 //while(1){
   StartT = micros();
   for(int a=0; a<packs; a++){
-  
-    client.print("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello");
+    // send 63 raw bytes 
+    client.print("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel");
 
   }
    timeP1 = micros();

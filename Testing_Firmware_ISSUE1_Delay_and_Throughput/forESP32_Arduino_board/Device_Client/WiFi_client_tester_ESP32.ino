@@ -55,7 +55,8 @@ void loop()
 while(1){
   StartT = micros();
   for(int a=0; a<packs; a++){
-  
+     
+     // send 63 raw bytes 
     client.print("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel");
 
   }
