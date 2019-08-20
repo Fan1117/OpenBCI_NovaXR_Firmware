@@ -11,7 +11,8 @@ import sys
 
 
 s = socket.socket()
-s.bind(('192.168.3.100', 8090 ))
+#s.bind(('192.168.3.100', 8090 ))
+s.bind(('', 8000))
 s.listen(0)            
 
 client, addr = s.accept()
@@ -30,8 +31,8 @@ while True:
 	while time.time() <= endT:
 		data = client.recv(1024)
 		#data,addr = s.recvfrom(2048)
-		#print(data)
-		#print(len(data))
+		print(data.decode('utf-8'))
+		print(len(data))
 		i=i+1
 		totalSize = totalSize + len(data)
  
