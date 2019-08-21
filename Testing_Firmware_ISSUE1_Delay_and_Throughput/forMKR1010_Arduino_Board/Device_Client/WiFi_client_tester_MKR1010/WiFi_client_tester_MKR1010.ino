@@ -77,15 +77,13 @@ void loop()
   unsigned long StartT, timeP1, timeP2, duration = 000;
 
   //while(1){
-  int packs = 10000;
+  int packs = 1000000;
   myFile = SD.open("NovaXR.txt", FILE_WRITE);
-
-  //while(1){
+   //while(1){
   StartT = micros();
   for (int a = 0; a < packs; a++) {
     // send 63 raw bytes
     client.print("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel");
-    myFile.print("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel");
   }
   timeP1 = micros();
 
@@ -102,7 +100,8 @@ void loop()
   //   Serial.print(" Packets/Sec ");
   //   Serial.print((1000000/((timeP1-StartT)/packs))*63);
   //   Serial.println(" Bytes/Sec ");
-  myFile.print("10000 Packets in: ");
+  myFile.print(packs);
+  myFile.print("Packets in: ");
   myFile.print(timeP1 - StartT);
   myFile.print(" Micro Secs");
 
