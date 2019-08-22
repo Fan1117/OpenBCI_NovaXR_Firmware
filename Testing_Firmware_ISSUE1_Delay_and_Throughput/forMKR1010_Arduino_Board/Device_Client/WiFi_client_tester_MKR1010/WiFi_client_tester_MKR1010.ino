@@ -38,14 +38,14 @@ void setup()
   Serial.println(WiFi.localIP());
 
   Serial.print("Initializing SD card...");
-  
+
   if (!SD.begin(4)) {
     Serial.println("initialization failed!");
     while (1);
   }
   Serial.println("initialization done.");
   myFile = SD.open("NovaXR.txt", FILE_WRITE);
-  
+
   if (myFile) {
     Serial.print("Writing to test.txt...");
     myFile.println("NovaXR testing...");
@@ -77,42 +77,33 @@ void loop()
   unsigned long StartT, timeP1, timeP2, duration = 000;
 
   //while(1){
-  int packs = 1000000;
+  int packs = 1556;
   myFile = SD.open("NovaXR.txt", FILE_WRITE);
-   //while(1){
-  StartT = micros();
-  for (int a = 0; a < packs; a++) {
-    // send 63 raw bytes
-    client.print("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel");
+  for (i = 0; i < 650; i++) {
+    //while(1){
+    StartT = micros();
+    for (int a = 0; a < packs; a++) {
+      // send 63 raw bytes
+      client.print("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel");
+    }
+    timeP1 = micros();
+
+    myFile.print(i);
+    myFile.print(": ");
+    myFile.print(packs);
+    myFile.print("Packets in: ");
+    myFile.print(timeP1 - StartT);
+    myFile.print(" Micro Secs");
+
+    myFile.print(" === Rate: ");
+    myFile.print((timeP1 - StartT) / packs);
+    myFile.print("us/Packet ===>  ");
+
+    myFile.print(1000000 / ((timeP1 - StartT) / packs));
+    myFile.print(" Packets/Sec ");
+    myFile.print((1000000 / ((timeP1 - StartT) / packs)) * 63);
+    myFile.println(" Bytes/Sec ");
   }
-  timeP1 = micros();
-
-
-  //   Serial.print("10000 Packets in: ");
-  //   Serial.print(timeP1-StartT);
-  //   Serial.print(" Micro Secs");
-  //
-  //   Serial.print(" === Rate: ");
-  //   Serial.print((timeP1-StartT)/packs);
-  //   Serial.print("us/Packet ===>  ");
-  //
-  //   Serial.print(1000000/((timeP1-StartT)/packs));
-  //   Serial.print(" Packets/Sec ");
-  //   Serial.print((1000000/((timeP1-StartT)/packs))*63);
-  //   Serial.println(" Bytes/Sec ");
-  myFile.print(packs);
-  myFile.print("Packets in: ");
-  myFile.print(timeP1 - StartT);
-  myFile.print(" Micro Secs");
-
-  myFile.print(" === Rate: ");
-  myFile.print((timeP1 - StartT) / packs);
-  myFile.print("us/Packet ===>  ");
-
-  myFile.print(1000000 / ((timeP1 - StartT) / packs));
-  myFile.print(" Packets/Sec ");
-  myFile.print((1000000 / ((timeP1 - StartT) / packs)) * 63);
-  myFile.println(" Bytes/Sec ");
   myFile.close();
   Serial.println("done.");
   Serial.println("Disconnecting...");
