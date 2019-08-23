@@ -1,0 +1,6 @@
+//#define SECRET_SSID "TP-Link_E3A6"
+//#define SECRET_PASS "34810798"
+#define SECRET_SSID "P"
+#define SECRET_PASS "12345678"
+//#define SECRET_SSID "modiPhone9"
+//#define SECRET_PASS "vlachosss"
