@@ -1,0 +1,26 @@
+Readme:
+Ioannis Smanis
+08/26/2019
+
+
+NovaXR Bootloader - for MCU SAMD21 only boards
+(depending on Debugger tool use the .hex or .bin file correspondingly)
+
+https://github.com/arduino/ArduinoCore-samd/tree/master/bootloaders/mkrwifi1010
+
+
+NovaXR WiFi Module - uBLOX NINA-W102 
+
+Step 1: 
+Load the sketch "NINA_W102_Firmware_Checker.ino" on your NovaXR board
+
+Step 2:
+Run the board opening the Serial Monitor 
+If the firmware is too old (version smaller than 1.2.1)
+You need to update the WiFi module firmware
+Otherwise you are good to go, stop reading here
+
+Step 3:
+Follow the steps here:
+https://www.arduino.cc/en/Tutorial/WiFiNINAFirmwareUpdater
+
