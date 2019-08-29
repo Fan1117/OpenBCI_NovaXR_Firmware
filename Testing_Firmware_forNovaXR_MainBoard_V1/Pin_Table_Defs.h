@@ -66,3 +66,8 @@
 #define ADC_RANGE            (1 << ADC_RESOLUTION_BITS)
 #define ADC_TOP_VALUE        (ADC_RANGE - 1)
 #define MAX_TOP_VALUE_READS  10
+
+
+// ################### ADS1299 Definitions #################
+#define ADS1299_ID  0x1E
+#define MASKADC_ADR 0x1F

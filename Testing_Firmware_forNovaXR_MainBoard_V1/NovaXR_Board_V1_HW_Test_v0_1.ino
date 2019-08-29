@@ -4,8 +4,18 @@
  * Project Name    :  Test NovaXR V1 Board - HW Test
  * 
  * --------- I2C Devices -------------
- *  1. MPU6050 6-Axis IMU - 0x68
- *  2. Crypto/TI Battery Monitor or NINA  - 0x60 and 0x6B
+ * 1. MPU6050 6-Axis IMU - 0x68
+ * 2. Crypto             - 0x60
+ * 3. TI Battery Monitor - 0x6B
+ * 4. uBlox Module       - N/A
+ *  
+ * --------- SPI Devices -------------
+ * 1. ADC #0 ADS1299 - 0x1E - Main Board
+ * 2. ADC #1 ADS1299 - 0x1E - Sister Board
+ * 
+ * --------- Direct Analog Sensors ---
+ * 1. EDA Impedance 
+ * 2. Battery Level 
  */
 
 // ---- Debugging Options ---------------
@@ -13,13 +23,11 @@
 #define MKR1010 // comment it out if you work with NovaXR board
 
 
-
-
 // ---- Imported Libraries ---------------
 #include "Pin_Table_Defs.h"
 #include "SAMD_AnalogCorrection.h"
 #include <Wire.h>
-
+#include <SPI.h>
 
 #ifdef WIFI
    #include <WiFiNINA.h>
@@ -27,8 +35,28 @@
    WiFiDrv uBLox;
 #endif
 
+// ---- ADS1299 Registers -----------------
+//SPI Command Definitions (pg. 35)
+const byte WAKEUP  = 0b00000010;   // Wake-up from standby mode
+const byte STANDBY = 0b00000100;   // Enter Standby mode
+const byte RESET   = 0b00000110;   // Reset the device
+const byte START   = 0b00001000;   // Start and restart (synchronize) conversions
+const byte STOP    = 0b00001010;   // Stop conversion
+const byte RDATAC  = 0b00010000;   // Enable Read Data Continuous mode (default mode at power-up) 
+const byte SDATAC  = 0b00010001;   // Stop Read Data Continuous mode
+const byte RDATA   = 0b00010010;   // Read data by command; supports multiple read back
 
-// ---- Prototype Functions ---------------
+//Register Read Commands
+const byte RREG = 0b00000000;
+const byte WRET = 0b00000000;
+
+const int CS1 = PA20; //chip select pin
+const int CS2 = PA23; //chip select pin
+const int DRDY = PA21; //data ready pin
+
+const float tCLK = 0.000666;
+
+// --------------- Prototype Functions ---------------
 void SAMD21_Tester(void);
 void SAMD21_UBLOX_Pin_Tester(void);
 void SAMD21_GPIO_Pin_Tester(void);
@@ -37,6 +65,12 @@ void CheckPinStatus(String Array_pinNames[], int Array_pinNumber[], int TotalPin
 void EDA_BATT_LEVEL_Tester(void);
 void Analog_Check(String Array_pinNames[], int Array_pinNumber[], int TotalPins, int start);
 void checkI2C_devices(void);
+void ADCs_Test(const int ChipSel_1, const int ChipSel_2 );
+bool ADS1299_detected(const int Chip_Select);
+byte getDeviceID(const int chip_select);
+
+
+
 
 
 
@@ -45,18 +79,16 @@ void checkI2C_devices(void);
 // ============================================================================================
 void setup() {
 
-
   Serial.begin(9600); 
   while(!Serial);
 
- 
-#ifdef WIFI
-  uBLox.pinMode(LED_GREEN, OUTPUT); 
-  uBLox.pinMode(LED_BLUE,  OUTPUT);
-  uBLox.pinMode(LED_RED,   OUTPUT);
-#endif
+  #ifdef WIFI
+    uBLox.pinMode(LED_GREEN, OUTPUT); 
+    uBLox.pinMode(LED_BLUE,  OUTPUT);
+    uBLox.pinMode(LED_RED,   OUTPUT);
+  #endif
 
-
+  
    Serial.println("\n ==== NovaXR QA Test Started ==== ");
 
    // --- Check uBlox communication with SAMD21 and the RGB-LED 
@@ -75,20 +107,25 @@ void setup() {
      delay(100);
 
      
-   // -- If not, go the next level of reading all the GPIOs of SAMD21 in order to diagnose a wrong pulled-up or pulled-down signal
+   // --- If not, go the next level of reading all the GPIOs of SAMD21 in order to diagnose a wrong pulled-up or pulled-down signal ---
    SAMD21_Tester();
-  
-  Serial.println("\n ==== QA Test Ended ==== \n");
+   delay(100);
+   // --- Detect if any ADC ADS1299 is alive on the board ------ 
+   ADCs_Test(CS1,CS2);
+   Serial.println("\n ==== QA Test Ended ==== \n");
   
 }
 
 
 void loop(){
 
-  delay(100000);
+  delay(1000000);
 }
 
 // ============================================================================================
+
+
+
 
 
 
@@ -127,6 +164,7 @@ void SAMD21_GPIO_Pin_Tester(void){
 }
 
 
+
 // --- Generic Function that checks a range of GPIOs ---
 void CheckPinStatus(String Array_pinNames[], int Array_pinNumber[], int TotalPins, int start){
   
@@ -154,6 +192,8 @@ void CheckPinStatus(String Array_pinNames[], int Array_pinNumber[], int TotalPin
 }
 
 
+
+
 // --- Map all possible GPIOs as Analog input pins and measure the input value ---
 void Analog_Check(String Array_pinNames[], int Array_pinNumber[], int TotalPins, int start){
     for (int pinNum=start; pinNum<TotalPins; pinNum++){
@@ -165,6 +205,8 @@ void Analog_Check(String Array_pinNames[], int Array_pinNumber[], int TotalPins,
   }
  Serial.println();
 }
+
+
 
 
 // --- Check the Analog Front End from EDA circuit and Battery level circuit ---
@@ -179,7 +221,6 @@ void EDA_BATT_LEVEL_Tester(void){
   Serial.print(readAccumulator);
   Serial.println();
 }
-
 
 
 
@@ -243,6 +284,88 @@ void checkI2C_devices(void){
   if (nDevices == 0)
     Serial.println("No I2C devices found\n");
 }
+
+
+
+
+
+
+void ADCs_Test(const int ChipSel_1, const int ChipSel_2 ){
+  Serial.print("\n ---------- SAMD21 SPI Peripherals ---------- \n");
+  Serial.println ("- Detect ADC Components: \n");
+  bool ADC1,ADC2=false;
+
+  ADC1 = ADS1299_detected(ChipSel_1);
+  delay(100);
+  ADC2 = ADS1299_detected(ChipSel_2);
+  
+  if(ADC1){
+    Serial.println("ADC ID#0 - AS1299 Detected"); 
+  }
+  
+  if(ADC2){
+    Serial.println("ADC ID#1 - AS1299 Detected"); 
+  }
+
+  if((ADC2=false) && (ADC1=false)){
+    Serial.println("No ADS1299 Device Detected");
+  }
+ 
+  
+}
+
+
+
+
+
+bool ADS1299_detected(const int Chip_Select){
+
+  pinMode(DRDY, INPUT);
+  pinMode(Chip_Select, OUTPUT);
+
+  SPI.begin();
+  SPI.setClockDivider(SPI_CLOCK_DIV16);  //Divides 16MHz clock by 16 to set CLK speed to 1MHz
+  SPI.setDataMode(SPI_MODE1);            //clock polarity = 0; clock phase = 1 (pg. 8)
+  SPI.setBitOrder(MSBFIRST);             //data format is MSB (pg. 25)
+  delay(10);                             //delay to ensure connection
+  
+  digitalWrite(Chip_Select, LOW);  //Low to communicate
+  SPI.transfer(RESET); 
+  digitalWrite(Chip_Select, HIGH); //Low to communicate
+  delay(10); 
+
+  byte ExpectedAddress = ADS1299_ID;
+  byte receivedByte = getDeviceID(Chip_Select);
+  bool Detected = false;
+  
+  if(ExpectedAddress == receivedByte ){
+    Detected = true;
+  } 
+  else {
+    Detected = false;
+  }
+  return Detected;
+}
+
+
+
+
+
+
+byte getDeviceID(const int chip_select){
+
+  digitalWrite(chip_select, LOW); //Low to communicated
+  SPI.transfer(SDATAC);
+  SPI.transfer(0x20); //RREG
+  SPI.transfer(0x00); //Asking for 1 byte (hopefully 0b???11110)
+  byte temp = SPI.transfer(0x00);
+  digitalWrite(chip_select, HIGH); //Low to communicated
+  byte mask = MASKADC_ADR;
+  byte Address = temp & mask;
+
+  return Address;
+}
+
 
 
 
