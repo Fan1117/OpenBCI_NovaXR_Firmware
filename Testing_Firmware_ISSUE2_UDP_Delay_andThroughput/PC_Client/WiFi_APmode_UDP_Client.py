@@ -3,6 +3,8 @@ Author: Ioannis Smanis
 Project: NovaXR PC UDP_Client  
 Goal: Test the recieving throughput to the Host Side
 The Host Computer that run this script acts as a UDP Client
+Server Mode:  Acccess Point Mode
+QA Test:  ISSUE2
 '''
 
 
@@ -12,14 +14,14 @@ import time
 import sys
 
 
-serverName = '192.168.1.148' # type your device/server IP address
+serverName = '192.168.4.1' # type your device/server IP address
 serverPort = 8090
 
 # Create a UDP socket
 UDP_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Send a Test packet
-message = bytes("Start", "utf-8")
+message = bytes("ST", "utf-8")
 sent = UDP_client.sendto(message,(serverName,serverPort))
 
 
