@@ -28,7 +28,7 @@
 #include "arduino_secrets.h"
 
 
-
+File myFile;
 const char* ssid     = SECRET_SSID;
 const char* password = SECRET_PASS;
 unsigned int UDPPort = 8090;
@@ -73,17 +73,17 @@ void setup() {
     while (1);
   }
   Serial.println("initialization done.");
-  myFile = SD.open("NovaXR.txt", FILE_WRITE);
+  myFile = SD.open("Task_2.csv", FILE_WRITE);
 
   if (myFile) {
-    Serial.print("Writing to test.txt...");
+    Serial.print("Writing to Task_2.csv...");
     myFile.println("NovaXR testing...");
     // close the file:
     myFile.close();
     Serial.println("done.");
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening NovaXR_test.txt");
+    Serial.println("error opening Task_2.csv");
   }
 
 }
@@ -134,21 +134,25 @@ void UDP_Server_Benchmarking(void) {
 
           timeP1 = micros(); // ---------------- Measure Time - Time Point 1
 
-          Serial.print(i);
-          Serial.print(": ");
-          Serial.print(packs);
-          Serial.print(" Packets in: ");
-          Serial.print(timeP1 - StartT);
-          Serial.print(" Micro Secs");
+          myFile.print(i);
+          myFile.print(": ");
+          myFile.print(packs);
+          myFile.print(" Packets in: ");
+          myFile.print(timeP1 - StartT);
+          myFile.print(" Micro Secs");
 
-          Serial.print(" === Rate: ");
-          Serial.print((timeP1 - StartT) / packs);
-          Serial.print("us/Packet ===>  ");
+          myFile.print(" === Rate: ");
+          myFile.print((timeP1 - StartT) / packs);
+          myFile.print("us/Packet ===>  ");
 
-          Serial.print(1000000 / ((timeP1 - StartT) / packs));
-          Serial.print(" Packets/Sec ");
-          Serial.print((1000000 / ((timeP1 - StartT) / packs)) * packetSize);
-          Serial.println(" Bytes/Sec ");
+          myFile.print(1000000 / ((timeP1 - StartT) / packs));
+          myFile.print(" Packets/Sec ");
+          myFile.print((1000000 / ((timeP1 - StartT) / packs)) * packetSize);
+          myFile.println(" Bytes/Sec ");
 
    }
+   myFile.close();
+   Serial.println("done.");
+   serial.println("Disconnecting...")
+   delay(10000000);
 }
