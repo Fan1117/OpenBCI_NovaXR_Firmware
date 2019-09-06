@@ -10,13 +10,13 @@
 
 // ============= QA Parameters =======================
 #define PACKETSNUM    300  // Number of Packets sent per session
-#define ITERATIONUM   650  // Number of Iterations
+#define ITERATIONUM   10  // Number of Iterations
 //-- Send Data buffers:
 /*63   bytes*/  //const char Buffer[]="HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello063";
 /*127  bytes*/  //const char Buffer[]="HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello123";            // a string to send back
 /*505  bytes*/  //const char Buffer[]="HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel";            // a string to send back
 /*680  bytes*/  //const char Buffer[]="HelloHelloHelloHelloHelloHellHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHello";
-/*1290 bytes*/    const char Buffer[]="HelloHelloHelloHelloHelloHellHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHello";
+/*1290 bytes*/    const char Buffer[] = "HelloHelloHelloHelloHelloHellHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHello";
 /*1469 bytes*/  //const char Buffer[]="HelloHelloHelloHelloHelloHellHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHel";
 // ====================================================
 
@@ -33,13 +33,14 @@ const char* ssid     = SECRET_SSID;
 const char* password = SECRET_PASS;
 unsigned int UDPPort = 8090;
 WiFiUDP UDP_Server;
+char packetBuffer[255]; //buffer to hold incoming
 
 
 
 
 void setup() {
   Serial.begin(9600);
-  while(!Serial);
+  while (!Serial);
   delay(10);
 
   Serial.println();
@@ -77,7 +78,7 @@ void setup() {
 
   if (myFile) {
     Serial.print("Writing to Task_2.csv...");
-    myFile.println("NovaXR testing...");
+    myFile.println("Iteration;PacketsIn;MicroSecs;Rate(us/Packet);Rate(Packets/Sec);Rate(Bytes/Sec)");
     // close the file:
     myFile.close();
     Serial.println("done.");
@@ -91,10 +92,22 @@ void setup() {
 
 
 void loop() {
-  uint32_t test1 = micros();
-  //size_t a = handleUDPServer();
+  // if senddata command is received, send data
+  int packetSize = UDP_Server.parsePacket();
+  if (packetSize) {
+    int len = UDP_Server.read(packetBuffer, 255);
+    if (len > 0) {
+      packetBuffer[len] = 0;
+    }
+    Serial.println("Contents:");
+    Serial.println(packetBuffer);
+    uint32_t test1 = micros();
+    //size_t a = handleUDPServer();
     UDP_Server_Benchmarking();
-   uint32_t test2 = micros();
+    uint32_t test2 = micros();
+  }
+  Serial.println("No command comming");
+  delay(1000);
 }
 
 
@@ -103,11 +116,11 @@ void loop() {
 
 size_t handleUDPServer() {
 
-    size_t dataSize = sizeof(Buffer);
-    UDP_Server.beginPacket(UDP_Server.remoteIP(), UDP_Server.remotePort());
-    //UDP_Server.write(Buffer);
-    UDP_Server.print(Buffer);
-    UDP_Server.endPacket();
+  size_t dataSize = sizeof(Buffer);
+  UDP_Server.beginPacket(UDP_Server.remoteIP(), UDP_Server.remotePort());
+  //UDP_Server.write(Buffer);
+  UDP_Server.print(Buffer);
+  UDP_Server.endPacket();
 
   return dataSize;
 }
@@ -118,41 +131,46 @@ void UDP_Server_Benchmarking(void) {
 
   int i = 0;
   String val;
-  unsigned long StartT, timeP1, timeP2, duration =0;
+  unsigned long StartT, timeP1, timeP2, duration = 0;
   int packs = PACKETSNUM;  //1556
   int packetSize = sizeof(Buffer);
+  myFile = SD.open("Task_2.csv", FILE_WRITE);
+  //Serial.println("Connected to server successful!");
+  for (i = 0; i < ITERATIONUM; i++) {
 
-      //Serial.println("Connected to server successful!");
-      for (i = 0; i < ITERATIONUM; i++) {
 
+    StartT = micros(); // ---------------- Measure Time - Starting Point
 
-          StartT = micros(); // ---------------- Measure Time - Starting Point
+    for (int a = 0; a < packs; a++) {
+      handleUDPServer();
+    }
 
-          for (int a = 0; a < packs; a++) {
-              handleUDPServer();
-           }
+    timeP1 = micros(); // ---------------- Measure Time - Time Point 1
 
-          timeP1 = micros(); // ---------------- Measure Time - Time Point 1
+    myFile.print(i);
+    myFile.print(";");
+    myFile.print(packs);
+    myFile.print(";");
+//    myFile.print(" Packets in: ");
+    myFile.print(timeP1 - StartT);
+    myFile.print(";");
+//    myFile.print(" Micro Secs");
 
-          myFile.print(i);
-          myFile.print(": ");
-          myFile.print(packs);
-          myFile.print(" Packets in: ");
-          myFile.print(timeP1 - StartT);
-          myFile.print(" Micro Secs");
+//    myFile.print(" === Rate: ");
+    myFile.print((timeP1 - StartT) / packs);
+    myFile.print(";");
+//    myFile.print("us/Packet ===>  ");
 
-          myFile.print(" === Rate: ");
-          myFile.print((timeP1 - StartT) / packs);
-          myFile.print("us/Packet ===>  ");
+    myFile.print(1000000 / ((timeP1 - StartT) / packs));
+    myFile.print(";");
+//    myFile.print(" Packets/Sec ");
+    myFile.print((1000000 / ((timeP1 - StartT) / packs)) * packetSize);
+    myFile.println(";");
+//    myFile.println(" Bytes/Sec ");
 
-          myFile.print(1000000 / ((timeP1 - StartT) / packs));
-          myFile.print(" Packets/Sec ");
-          myFile.print((1000000 / ((timeP1 - StartT) / packs)) * packetSize);
-          myFile.println(" Bytes/Sec ");
-
-   }
-   myFile.close();
-   Serial.println("done.");
-   serial.println("Disconnecting...")
-   delay(10000000);
+  }
+  myFile.close();
+  Serial.println("done.");
+  Serial.println("Disconnecting...");
+  delay(10000000);
 }
