@@ -15,7 +15,7 @@ import sys
 import csv
 
 
-serverName = '192.168.0.20'  # type your device/server IP address
+serverName = '192.168.0.10'  # type your device/server IP address
 serverPort = 8090
 
 # Create a UDP socket
@@ -29,11 +29,11 @@ sent = UDP_client.sendto(message, (serverName, serverPort))
 # Keep recieving all packets are sent
 Times = 10
 counter = 0
-with open('Task_2_PC.csv', 'w', newline='') as csvfile:
+with open('PC.csv', 'w', newline='') as csvfile:
 	signalwriter = csv.writer(csvfile, delimiter=';')
 	signalwriter.writerow(["Counter","TotalSize","RX-Buffers"])
 
-	while counter < 10:
+	while counter < 600:
 		try:
 			startT = time.time()
 			endT = startT + 1.0
@@ -56,8 +56,8 @@ with open('Task_2_PC.csv', 'w', newline='') as csvfile:
 			duration = poinT2 - poinT1
 
 			if duration <= 1.09:
-				signalwriter.writerow([counter, totalSize, 1000000/i])
-				print("Recieved: ", counter, totalSize, " Bytes/Second ", i, " RX-Buffers")
+				signalwriter.writerow([counter, totalSize, int(1000000/i)])
+				print("Recieved: ", counter, totalSize, " Bytes/Second ", int(1000000/i), " RX-Buffers")
 
 			totalSize = 0
 			i = 0
