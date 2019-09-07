@@ -10,7 +10,7 @@
 
 // ============= QA Parameters =======================
 #define PACKETSNUM    300  // Number of Packets sent per session
-#define ITERATIONUM   10  // Number of Iterations
+#define ITERATIONUM   650  // Number of Iterations
 //-- Send Data buffers:
 /*63   bytes*/  //const char Buffer[]="HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello063";
 /*127  bytes*/  //const char Buffer[]="HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello123";            // a string to send back
@@ -74,17 +74,17 @@ void setup() {
     while (1);
   }
   Serial.println("initialization done.");
-  myFile = SD.open("Task_2.csv", FILE_WRITE);
+  myFile = SD.open("DEVICE.csv", FILE_WRITE);
 
   if (myFile) {
-    Serial.print("Writing to Task_2.csv...");
+    Serial.print("Writing to DEVICE.csv...");
     myFile.println("Iteration;PacketsIn;MicroSecs;Rate(us/Packet);Rate(Packets/Sec);Rate(Bytes/Sec)");
     // close the file:
     myFile.close();
     Serial.println("done.");
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening Task_2.csv");
+    Serial.println("error opening DEVICE.csv");
   }
 
 }
@@ -134,7 +134,7 @@ void UDP_Server_Benchmarking(void) {
   unsigned long StartT, timeP1, timeP2, duration = 0;
   int packs = PACKETSNUM;  //1556
   int packetSize = sizeof(Buffer);
-  myFile = SD.open("Task_2.csv", FILE_WRITE);
+  myFile = SD.open("DEVICE.csv", FILE_WRITE);
   //Serial.println("Connected to server successful!");
   for (i = 0; i < ITERATIONUM; i++) {
 
