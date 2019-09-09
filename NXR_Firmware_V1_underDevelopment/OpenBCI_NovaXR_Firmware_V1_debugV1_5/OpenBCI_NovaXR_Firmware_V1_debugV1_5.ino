@@ -1,8 +1,8 @@
 /*
-   Author:        Ioannis Smanis
-   Hardware:      NovaXR - MKR1010 board
-   Firmware:      Version 1.0
-   Device Mode:   Infrastructure Mode
+   Author:              Ioannis Smanis
+   Compatible Hardware: NovaXR - MKR1010 board
+   Firmware:            Version 1.6
+   Device Mode:         Infrastructure Mode
 */
 
 
@@ -17,6 +17,7 @@
 
 Sensors_Data  SensorD;
 DataPacket D_Packet;
+
 boolean streamingFlag = STOP_STREAMING;
 
 
@@ -29,8 +30,8 @@ void setup() {
     while(!Serial);
     delay(1000); 
    #endif
-  
-   
+   Serial.print("Datapacket size: ");
+   Serial.println(sizeof(DataPacket));
   
     #ifdef APMODE 
       // ---- Device will create a WiFi network
@@ -53,16 +54,16 @@ void setup() {
 
 void loop() {
 
- 
-   // start_DStream(&SensorD,&D_Packet);
-   // UDP_Server_Benchmarking(Buffer1);
-   
       Receive_Command();
        while(streamingFlag){
          start_DStream(&SensorD,&D_Packet);
-         Serial.println(streamingFlag);
+         bool assertion = Receive_Command();
+          if(assertion){
+            Serial.println("Error sending data..");
+            break;  
+          }
        }
-    
+
  }
 
  

@@ -213,8 +213,7 @@ boolean processChar(char character){
       Serial.println("start stream data");
       streamingFlag =START_STREAMING;
       break;
-    
-    
+  
     case OPENBCI_STREAM_STOP: // stop streaming data
       Serial.println("stop streaming data");
       streamingFlag =STOP_STREAMING;

@@ -54,8 +54,6 @@
 #define OPENBCI_PIN_PGC 12
 // #define WIFI_RESET 18
 
-#define OPENBCI_PIN_SERIAL1_TX 11
-#define OPENBCI_PIN_SERIAL1_RX 12
 // ----------------------//----------------------//-------------//
 
 // ###################### SAMD21 Pin Table ####################
@@ -217,14 +215,14 @@
 #define ADSINPUT_BIAL_DRN   (0b00000111)
 
 //test signal choices...ADS1299 datasheet page 41
-#define ADSTESTSIG_AMP_1X 			(0b00000000)
-#define ADSTESTSIG_AMP_2X 			(0b00000100)
+#define ADSTESTSIG_AMP_1X 		  	(0b00000000)
+#define ADSTESTSIG_AMP_2X 		  	(0b00000100)
 #define ADSTESTSIG_PULSE_SLOW 		(0b00000000)
 #define ADSTESTSIG_PULSE_FAST 		(0b00000001)
-#define ADSTESTSIG_DCSIG 			(0b00000011)
-#define ADSTESTSIG_NOCHANGE 		(0b11111111)
+#define ADSTESTSIG_DCSIG 		    	(0b00000011)
+#define ADSTESTSIG_NOCHANGE 		  (0b11111111)
 #define ADS1299_CONFIG1_DAISY 		(0b10110000)
-#define ADS1299_CONFIG1_DAISY_NOT 	(0b10010000)
+#define ADS1299_CONFIG1_DAISY_NOT (0b10010000)
 
 //Lead-off signal choices
 #define LOFF_MAG_6NA        (0b00000000)
@@ -235,10 +233,10 @@
 #define LOFF_FREQ_7p8HZ     (0b00000001)
 #define LOFF_FREQ_31p2HZ    (0b00000010)
 #define LOFF_FREQ_FS_4      (0b00000011)
-#define PCHAN 	(0)
-#define NCHAN 	(1)
-#define OFF 	(0)
-#define ON 		(1)
+#define PCHAN 	            (0)
+#define NCHAN 	            (1)
+#define OFF 	              (0)
+#define ON 		              (1)
 
 // used for channel settings
 #define ACTIVATE_SHORTED 	(2)

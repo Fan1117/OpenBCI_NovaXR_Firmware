@@ -16,12 +16,12 @@
 // ------ Macro Definitions -------------------
 #define PACKETSNUM    300               // Number of Packets sent per session
 #define ITERATIONUM   650               // Number of Iterations
-#define WIFISSID      "yourSSID"        // WiFi name
-#define PASSWRD       "yourPassword"    // WiFi password
-#define APSSID        "NovaXR"          // WiFi name
-#define APSPASS       "novaxr1!"        // WiFi name
-#define NETPORT		    2390              // UDP network port number
-#define PACKET_SIZE   72                // 72 bytes UDP packet size
+#define WIFISSID      "InfraTest" //"modiPhone9"//"InfraTest"        //"Mastoras"        // WiFi name
+#define PASSWRD       "m@li@diakopes"//"vlachosss"//"m@li@diakopes"  //"!!vagela26340" // WiFi password
+#define APSSID        "NovaXR"        // WiFi name
+#define APSPASS       "novaxr1!"      // WiFi name
+#define NETPORT		    2390            // UDP network port number
+#define PACKET_SIZE    72             // 72 bytes full unix timestamp
 
 
 #define TEST56
@@ -94,8 +94,8 @@ struct ADS_Data{
     uint8_t PacketNum;
     Sensors_Data Payload;
     union {
-      uint32_t timeStampDiff;
-      uint64_t timeStamp;
+      double timeStampDiff;
+      double timeStamp;
     }T_Stamp; 
   };
 
@@ -114,7 +114,7 @@ void UDP_Server_Benchmarking(char Buffer[]);
 size_t Send_Data_PktBuffer(char DBuffer[]);
 size_t Send_Data(char Buffer[]);
 void start_DStream(Sensors_Data * data, DataPacket *packet);
-void sendUDP_DataPkt (DataPacket *packet);
+bool sendUDP_DataPkt(DataPacket *packet);
 
 // ------- OpenBCI API related methods ----------------- //
 bool checkCommand(char CMD[]);
