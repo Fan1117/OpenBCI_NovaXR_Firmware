@@ -8,7 +8,7 @@ import numpy as np
 csv_name_PC = "PC.csv"
 csv_name_DEVICE = "DEVICE.csv"
 col_name_PC = ["iteration","throughput","us_per_buffer"]
-col_name_DEVICE = ["iteration","pack","totaltime","us_per_pack","packs_per_sec","bytes_per_sec"]
+col_name_DEVICE = ["iteration","pack","totaltime","us_per_pack","packs_per_sec","bytes_per_sec",";"]
 target_name_PC = ["iteration","us_per_buffer"]# 1 second / i packets
 target_name_DEVICE = ["iteration","us_per_pack"]
 
@@ -31,22 +31,23 @@ def folder_plotting(folder_path):
             plt.subplot(211)
             plt.title(figure_title + " | Top: PC | Bottom: DEVICE")
             plt.plot(x1, y1)
-            plt.xticks(np.arange(0,600,100))
-            plt.yticks(np.arange(min(y1),max(y1)))
+            #plt.xticks(np.arange(0,600,100))
+            #plt.yticks(np.arange(min(y1),max(y1)))
             plt.subplot(212)
             plt.plot(x2, y2)
-            plt.xticks(np.arange(0,600,100))
-            plt.yticks(np.arange(min(y2),max(y2)))
+            #plt.xticks(np.arange(0,600,100))
+            #plt.yticks(np.arange(min(y2),max(y2)))
             #plt.yticks(np.arange(2000,6000,500))
             #plt.xticks(np.arange(min(x2), max(x2)+1, 1.0))
             #plt.yticks(np.arange(min(y2), max(y2)+1, 1.0))
-            plt.tight_layout()
+            #plt.tight_layout()
             plt.savefig(figure_name)
             plt.close()
 
 
 def data_loader(csv_file, col_names, target_names):
-    df = pd.read_csv(csv_file, delimiter=";", names= col_names, skiprows=[0])
+    df = pd.read_csv(csv_file, delimiter=";", names= col_names, skiprows=[0,1,3])
+    print(df)
     return pd.to_numeric(df[target_names[0]][2:], downcast='float'), pd.to_numeric(df[target_names[1]][2:], downcast='float')
 
 
