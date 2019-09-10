@@ -18,6 +18,7 @@ def folder_plotting(folder_path):
         if not dirnames:
             figure_title = dirpath.split('/')[-2] + dirpath.split('/')[-1]# 1m63
             figure_name = figure_title + '.png'
+            #print(dirpath, dirnames, filenames)
             for filename in filenames:
                 path = dirpath + '/' + filename
                 if filename == 'PC.csv':
@@ -31,11 +32,11 @@ def folder_plotting(folder_path):
             plt.title(figure_title + " | Top: PC | Bottom: DEVICE")
             plt.plot(x1, y1)
             plt.xticks(np.arange(0,600,100))
-            plt.yticks(np.arange(min(y1),max(y1),500))
+            plt.yticks(np.arange(min(y1),max(y1)))
             plt.subplot(212)
             plt.plot(x2, y2)
             plt.xticks(np.arange(0,600,100))
-            plt.yticks(np.arange(min(y2),max(y2),50))
+            plt.yticks(np.arange(min(y2),max(y2)))
             #plt.yticks(np.arange(2000,6000,500))
             #plt.xticks(np.arange(min(x2), max(x2)+1, 1.0))
             #plt.yticks(np.arange(min(y2), max(y2)+1, 1.0))
@@ -45,8 +46,8 @@ def folder_plotting(folder_path):
 
 
 def data_loader(csv_file, col_names, target_names):
-    df = pd.read_csv(csv_file, delimiter=";", names= col_names)
-    return pd.to_numeric(df[target_names[0]][1:], downcast='float'), pd.to_numeric(df[target_names[1]][1:], downcast='float')
+    df = pd.read_csv(csv_file, delimiter=";", names= col_names, skiprows=[0])
+    return pd.to_numeric(df[target_names[0]][2:], downcast='float'), pd.to_numeric(df[target_names[1]][2:], downcast='float')
 
 
 
