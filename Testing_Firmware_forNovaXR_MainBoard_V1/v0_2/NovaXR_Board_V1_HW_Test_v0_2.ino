@@ -1,6 +1,6 @@
 /* ===================================
  * Author          :  Ioannis Smanis
- * Firmware Version:  0.2
+ * Firmware Version:  0.2.1
  * Project Name    :  Test NovaXR V1 Board - HW Test
  * 
  * --------- I2C Devices -------------
@@ -19,7 +19,7 @@
 
 // ---- Debugging Options ---------------
 #define WIFI    // comment it out if you dont want to involve uBlox in your test
-
+#define SPITEST // Comment out this line If you want to run a regular diagnostic Test
 
 
 // ---- Imported Libraries ---------------
@@ -33,6 +33,8 @@
    #include <utility/wifi_drv.h>
    WiFiDrv uBLox;
 #endif
+
+
 
 // ---- ADS1299 Registers -----------------
 //SPI Command Definitions (pg. 35)
@@ -69,10 +71,7 @@ void checkI2C_devices(void);
 void ADCs_Test(const int ChipSel_1, const int ChipSel_2 );
 bool ADS1299_detected(const int Chip_Select);
 byte getDeviceID(const int chip_select);
-
-
-
-
+void SPI_Test(void);
 
 
 
@@ -91,7 +90,7 @@ void setup() {
 
   
    Serial.println("\n ==== NovaXR V1 QA Test Started ==== ");
-   
+ 
   #ifdef WIFI
    // --- Check uBlox communication with SAMD21 and the RGB-LED 
    // -- If the LEDs blink RGB colors, SAMD21 communicates well with uBlox module
@@ -108,14 +107,19 @@ void setup() {
     uBLox.digitalWrite(LED_RED, LOW); // for full brightness
      delay(100);
   #endif
-  
-     
+
+
+ #ifdef SPITEST . // Special Case test
+     // Test SPI connections - Blink(HIGH/LOW) SPI related pins with period of 5Seconds and use the multimeter to check if they really change
+     SPI_Test();
+ #else
    // --- If not, go the next level of reading all the GPIOs of SAMD21 in order to diagnose a wrong pulled-up or pulled-down signal ---
    SAMD21_Tester();
    delay(100);
    // --- Detect if any ADC ADS1299 is alive on the board ------ 
    ADCs_Test(CS1,CS2);
    Serial.println("\n ==== QA Test Ended ==== \n");
+ #endif
   
 }
 
@@ -128,10 +132,39 @@ void loop(){
 // ============================================================================================
 
 
+void SPI_Test(void){
 
+  #define WIFITOTALPINS 11
+  String PinNames[WIFITOTALPINS] = {"PA21-CS1", "PA22-ADS_CLK", "PA16-SPI_MOSI", "PA02", "PA04", "PA05", "PA10-DRDY",  "PA17-SPI_SCK", "PA18_OTG", "PA19-SPI_MISO", "PA20-CS2"};
+     int PinTable[WIFITOTALPINS] = {PA21, PA22,PA16, PA02, PA04, PA05, PA10,  PA17, PA18, PA19, PA20};
 
+  Serial.print("\n ---------- SPI and AUX Connections Status ---------- ");
+  Serial.print("Total Pins: ");
+  Serial.println(WIFITOTALPINS);
+  Serial.println("\nBoard Pins below will be blinking: ");
+  for(int pinNum=0; pinNum<WIFITOTALPINS; pinNum++){
+    pinMode(PinTable[pinNum],OUTPUT);
+    Serial.println(PinNames[pinNum]);
+    delay(100);
+    }
+  Serial.println();
+  // ------  BLINK PINS
+  while(1){
 
-
+   for(int pinNum=0; pinNum<WIFITOTALPINS; pinNum++){
+    digitalWrite(PinTable[pinNum],HIGH);
+    delay(10);
+    }
+    Serial.println("Pins are: HIGH - Measure 3.3V");
+    delay(5000);
+    for(int pinNum=0; pinNum<WIFITOTALPINS; pinNum++){
+    digitalWrite(PinTable[pinNum],LOW);
+    delay(10);
+    }
+    Serial.println("Pins are: LOW - Measure 0V");
+    delay(5000);
+  }
+}
 
 
 

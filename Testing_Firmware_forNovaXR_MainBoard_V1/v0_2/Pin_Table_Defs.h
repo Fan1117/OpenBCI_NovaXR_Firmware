@@ -34,12 +34,10 @@
 
 #ifdef MKR1010
   // ------- MKR1010 --------------------------------
- 
   #define PA11 3  
   #define PB02 16 
   #define PB03 17 
   #define PB10 4
-
   #define PA03 25 
 #endif
 
