@@ -150,12 +150,12 @@ bool WiFi_ID_exists(int8_t id){
 }
 
 
-uint8_t previous_WiFi_ID(void){
+uint8_t previous_WiFi_ID(int8_t index){
 
-     int8_t id = lastWiFi_ID() - 1;
+     int8_t id = lastWiFi_ID() - (index+1);
      
      if (id<0){       
-        id = CRED_SIZE-1;
+        id = CRED_SIZE-(index+1);
         if(!WiFi_ID_exists(id)){
           id=0;
        }
@@ -163,6 +163,22 @@ uint8_t previous_WiFi_ID(void){
 
     return id;
 }
+//
+//uint8_t previous_WiFi_ID(void){
+//
+//     int8_t id = lastWiFi_ID() - 1;
+//     
+//     if (id<0){       
+//        id = CRED_SIZE-1;
+//        if(!WiFi_ID_exists(id)){
+//          id=0;
+//       }
+//     }
+//
+//    return id;
+//}
+
+
 
 
 

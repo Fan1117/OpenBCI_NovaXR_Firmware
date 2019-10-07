@@ -65,7 +65,7 @@ uint8_t count_SSIDsInList(void);
 char * CreateSSID(void);
 char * CreatePASS(void);
 void getCurrent_ROMdata(NXR_Rom *flash_data);
-uint8_t previous_WiFi_ID(void);
+uint8_t previous_WiFi_ID(int8_t index);
 bool WiFi_ID_exists(int8_t id);
 bool connect_lastWiFi( uint8_t last_wifi);
 

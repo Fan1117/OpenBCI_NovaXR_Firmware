@@ -51,26 +51,31 @@ void setup() {
 
    bool connStatus = false;
    ROM_Init();
-
-
+   
    int totalWiFi = count_SSIDsInList();
    Serial.print("Total WiFi:  ");Serial.println(totalWiFi); 
-
+   
    if(totalWiFi>0){  // ------ Connect to a saved WiFi SSID --------------
         Serial.println("Connecting ....");
         // get the last connected WiFi credential
         uint8_t lastWiFi = lastWiFi_ID();
         for(uint8_t index=0; index<totalWiFi; index++){  
-              Serial.print("connect_lastWiFi: # ");Serial.println(lastWiFi);             
+              Serial.print("connect_lastWiFi: # ");Serial.println(lastWiFi);
+              
+              // time 
+              Serial.print("Target wifi time start: "); 
+              Serial.println(millis());
+                          
               connStatus = connect_lastWiFi(lastWiFi);
-              connStatus =0;
+//              connStatus =0;
               if (connStatus){
                 break;
               }else{
-                lastWiFi = previous_WiFi_ID(); 
-                 
+                lastWiFi = previous_WiFi_ID(index);    
               }
          }
+         // if connected, stop creating AP
+         
          Serial.println("Creating AP #0....");
          if(!connStatus){ // if none of the stored SSIDs are near by then get in AP mode to register a new one
           start_HTMLserver(CreateSSID(), CreatePASS());
@@ -81,8 +86,10 @@ void setup() {
       start_HTMLserver(CreateSSID(), CreatePASS());
        
    }
-
-     
+   
+    Serial.print("End time:  ");
+    Serial.println(millis());
+    
     // ---- Start a UDP Server-----
     Serial.println("Starting Data Streamer....");
     // startUDP_Server(NETPORT);  // disabled data server
